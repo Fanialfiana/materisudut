@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="id"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Detektif Sudut – Belajar Hubungan Antar Sudut</title>
+<style>
+:root{--bg:#f4f6fc;--fg:#1b2130;--mu:#5a6478;--cd:#fff;--bd:#dce0ea;--p:#2563eb;--q:#ea580c;--g:#16a34a;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12151c;--fg:#e8ecf5;--mu:#9aa4b8;--cd:#1b2030;--bd:#2c3347;--p:#60a5fa;--q:#fb923c;--g:#4ade80;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#12151c;--fg:#e8ecf5;--mu:#9aa4b8;--cd:#1b2030;--bd:#2c3347;--p:#60a5fa;--q:#fb923c;--g:#4ade80;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;padding:12px 16px 0}
+.top{max-width:640px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:8px;font-weight:700}
+#pt{background:#fff3;border-radius:999px;padding:3px 12px;font-size:.85rem}
+.pb{max-width:640px;margin:10px auto 0;height:8px;background:#fff3;border-radius:8px 8px 0 0;overflow:hidden}
+.pb i{display:block;height:100%;width:0;background:#fbbf24;transition:width .5s}
+main{max-width:640px;margin:0 auto;padding:14px 16px 40px}
+#gl{font-size:.85rem;color:var(--mu);font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+h2{margin:4px 0 6px;font-size:1.35rem}p{margin:6px 0}.mu{color:var(--mu);font-size:.9rem}
+.card{background:var(--cd);border:1px solid var(--bd);border-radius:16px;padding:8px;margin:10px 0}
+svg{width:100%;height:auto;display:block}
+input[type=range]{width:100%;height:36px;accent-color:var(--q)}
+.ro{font-weight:800;font-size:1.15rem;text-align:center;margin:6px 0;color:var(--p)}
+.ins{background:color-mix(in srgb,var(--g) 16%,var(--cd));border:1px solid var(--g);border-radius:12px;padding:10px 14px;margin:10px 0;animation:in .4s}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+button{font:inherit;border:1px solid var(--bd);background:var(--cd);color:var(--fg);padding:9px 14px;border-radius:12px;cursor:pointer}
+.chips button.on{background:var(--p);border-color:var(--p);color:#fff;font-weight:700}
+.go,.b2{background:var(--q);border-color:var(--q);color:#fff;font-weight:700}
+.go{width:100%;padding:13px;font-size:1.05rem;margin-top:10px}
+.go:disabled{opacity:.4}
+.gh{margin:8px 0}
+.row{display:flex;gap:8px;margin:8px 0}
+input[type=number]{font:inherit;flex:1;min-width:0;padding:10px;border-radius:12px;border:2px solid var(--bd);background:var(--cd);color:var(--fg);font-size:1.1rem}
+.q{font-weight:600}
+.fb{border-radius:12px;padding:10px 14px;margin:8px 0;animation:in .4s}
+.fb.ok{background:color-mix(in srgb,var(--g) 18%,var(--cd));border:1px solid var(--g)}
+.fb.no{background:color-mix(in srgb,var(--q) 16%,var(--cd));border:1px solid var(--q);animation:sk .4s}
+.fin{text-align:center;padding:20px 14px}.big{font-size:2.4rem}
+.ln{stroke:var(--fg);stroke-width:2.5;stroke-linecap:round}.sq{stroke:var(--mu);fill:none;stroke-width:1.5}
+.dr{stroke:var(--q);stroke-width:8;stroke-linecap:round}
+.s1{fill:var(--p);stroke:var(--p)}.s2{fill:var(--q);stroke:var(--q)}
+.l1{fill:var(--p)}.l2{fill:var(--q)}.tx{fill:var(--mu);font-size:12px}
+.np{padding:0;position:relative}.np svg{border-radius:16px}
+.slot{position:absolute;transform:translate(-50%,-50%);z-index:2;min-width:42px;height:28px;padding:0 4px;box-sizing:border-box;display:flex;align-items:center;justify-content:center;border:2px dashed var(--mu);border-radius:8px;background:var(--cd);font-weight:700;font-size:.85rem}
+.slot:empty::before{content:"?";color:var(--mu)}
+.slot.good{border:2px solid var(--g);background:color-mix(in srgb,var(--g) 18%,var(--cd))}
+.slot.bad{border-color:var(--q);animation:sl .4s}
+.chs{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0;min-height:40px}
+.chip{padding:6px 14px;border:1px solid var(--p);border-radius:999px;background:var(--cd);cursor:grab;touch-action:none;user-select:none;font-weight:700}
+.chip.gone{display:none}
+.ghost{position:fixed;transform:translate(-50%,-50%);pointer-events:none;z-index:99;box-shadow:0 4px 12px #0004}
+@keyframes sl{25%{transform:translate(calc(-50% - 6px),-50%)}75%{transform:translate(calc(-50% + 6px),-50%)}}
+.cf{position:fixed;bottom:30%;font-size:1.6rem;pointer-events:none;animation:up 1.2s ease-out forwards;z-index:9}
+@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes sk{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+@keyframes up{to{transform:translateY(-220px) rotate(40deg);opacity:0}}
+</style></head><body>
+<header><div class="top"><span>📐 Detektif Sudut</span><span id="pt"></span></div><div class="pb"><i id="pf"></i></div></header>
+<main><div id="gl"></div><div id="app"></div><button class="go" id="nx">Lanjut ▶</button></main>
+<script>
+const $=i=>document.getElementById(i),R=Math.PI/180;
+const P=(x,y,r,f)=>[x+r*Math.cos(f*R),y-r*Math.sin(f*R)];
+const ln=(a,b,c,d)=>`<line class="ln" x1="${a}" y1="${b}" x2="${c}" y2="${d}"/>`;
+const S=s=>`<svg id="fg" viewBox="0 0 400 300">${s}</svg>`;
+function arc(x,y,f1,f2,lb,c,lr=60,r=36){const a=P(x,y,r,f1),b=P(x,y,r,f2),m=P(x,y,lr,(f1+f2)/2);
+return `<path class="s${c}" fill-opacity=".3" stroke-width="1.5" d="M${x} ${y}L${a[0]} ${a[1]}A${r} ${r} 0 0 0 ${b[0]} ${b[1]}Z"/><text class="l${c}" x="${m[0]}" y="${m[1]}" text-anchor="middle" dominant-baseline="middle" font-size="13" font-weight="700">${lb}</text>`}
+const vt=(t,w)=>{const d=Math.cos(t*R),m=50/Math.sin(t*R);return w=="A"?[200+d*m,100]:[200-d*m,200]};
+function par(t,arcs,nm=["k","l"]){const d=[Math.cos(t*R),-Math.sin(t*R)];
+return ln(20,100,380,100)+ln(20,200,380,200)+ln(200-d[0]*150,150-d[1]*150,200+d[0]*150,150+d[1]*150)+`<text class="tx" x="24" y="92">${nm[0]}</text><text class="tx" x="24" y="192">${nm[1]}</text>`+arcs.map(a=>arc(...vt(t,a[0]),a[1],a[2],a[3],a[4],a[5],a[6])).join("")}
+const ray=(t,la,lb,r=36,lr=60)=>ln(30,210,370,210)+ln(200,210,...P(200,210,170,t))+arc(200,210,0,t,la,1,lr,r)+arc(200,210,t,180,lb,2,lr,r);
+const pen=(t,la,lb,r=36,lr=60)=>ln(120,250,340,250)+ln(120,250,120,40)+ln(120,250,...P(120,250,200,t))+`<path class="sq" d="M134 250V236H120"/>`+arc(120,250,0,t,la,1,lr,r)+arc(120,250,t,90,lb,2,lr,r);
+let pg=0,pts=0,got={};
+const lv=()=>pts>=100?"Master Sudut":pts>=70?"Ahli Sudut":pts>=30?"Detektif Sudut":"Calon Detektif";
+const upd=()=>$("pt").textContent=`⭐ ${pts} · ${lv()}`;
+const aw=(k,n)=>{if(!got[k]){got[k]=1;pts+=n;upd()}};
+const msg=()=>["Hebat! 🎉","Keren, otakmu tajam! 🧠","Mantap, terus lanjutkan! 🚀","Kamu makin jago! ⭐","Luar biasa! 👏"][Math.floor(Math.random()*5)];
+function cf(){for(let i=0;i<12;i++){const e=document.createElement("span");e.className="cf";e.textContent=["🎉","⭐","✨"][i%3];e.style.left=(8+Math.random()*84)+"%";e.style.animationDelay=Math.random()*.3+"s";document.body.appendChild(e);setTimeout(()=>e.remove(),1700)}}
+const QD={UR:t=>[0,t],UL:t=>[t,180],LL:t=>[180,180+t],LR:t=>[180+t,360]},SZ={UR:t=>t,UL:t=>180-t,LL:t=>t,LR:t=>180-t};
+const RL=[["Sehadap",["A","UR"],["B","UR"],"eq","Letak sudutnya sama pada garis atas dan garis bawah."],
+["Berseberangan dalam",["A","LL"],["B","UR"],"eq","Sama-sama di dalam dua garis sejajar, tetapi berbeda sisi transversal."],
+["Berseberangan luar",["A","UL"],["B","LR"],"eq","Sama-sama di luar dua garis sejajar, dan berbeda sisi transversal."],
+["Sepihak dalam",["A","LR"],["B","UR"],"sum","Di dalam dua garis sejajar dan berada pada sisi transversal yang sama."],
+["Sepihak luar",["A","UR"],["B","LR"],"sum","Di luar dua garis sejajar dan berada pada sisi transversal yang sama."]];
+
+function ap(){let ok=0;
+$("app").innerHTML=`<h2>Selamat datang, Detektif Sudut! 🕵️</h2><p>Kamu sedang berada di perpustakaan sekolah. Pintu, buku yang terbuka, rak yang sejajar, sampai tangga, semuanya menyimpan rahasia sudut.</p><p><b>Misi pertama:</b> geser slider untuk membuka pintu perpustakaan sampai tepat membentuk sudut siku-siku.</p><div class="card">${S("")}</div><input type="range" id="sl" min="5" max="175" value="25"><div class="ro" id="ro"></div><div class="ins" id="in" hidden>✅ <b>Tepat 90°, itu sudut siku-siku!</b><br>🎯 Tujuan hari ini: (1) memahami sudut berpelurus dan berpenyiku, (2) menemukan hubungan sudut pada garis sejajar yang dipotong transversal, (3) mencari nilai x dan menyelesaikan soal cerita. Kamu pasti bisa!</div>`;
+const d=()=>{const t=+$("sl").value,e=P(200,250,150,t),hit=Math.abs(t-90)<=2;
+$("fg").innerHTML=ln(40,250,360,250)+`<line class="dr" x1="200" y1="250" x2="${e[0]}" y2="${e[1]}"/>`+arc(200,250,0,t,t+"°",1,66,42)+`<text class="tx" x="200" y="274" text-anchor="middle">engsel pintu</text>`;
+$("ro").textContent=hit?"✅ 90°":`Pintu terbuka ${t}°`;
+if(hit&&!ok){ok=1;$("in").hidden=false;aw("ap",5);cf();$("nx").disabled=false}};
+$("sl").oninput=d;d()}
+
+function c1(){let mv=0;
+$("app").innerHTML=`<h2>Sudut Berpelurus 📏</h2><p>Satu garis lurus membentuk sudut 180°. Geser slider untuk memutar sinar, lalu perhatikan sudut <b>a</b> dan <b>b</b>.</p><div class="card">${S("")}</div><input type="range" id="sl" min="20" max="160" value="60"><div class="ro" id="ro"></div><div class="ins" id="in" hidden>🔑 <b>Kesimpulan:</b> dua sudut yang berpelurus selalu berjumlah <b>180°</b>. Jika a diketahui, maka b = 180° − a. Coba geser sampai a = 90°: b juga 90°!</div>`;
+const d=()=>{const t=+$("sl").value;$("fg").innerHTML=ray(t,`a = ${t}°`,`b = ${180-t}°`,50,84);$("ro").textContent=`a + b = ${t}° + ${180-t}° = 180°`};
+$("sl").oninput=()=>{d();if(!mv){mv=1;$("in").hidden=false;aw("c1",5);$("nx").disabled=false}};d()}
+
+function c2(){let mv=0;
+$("app").innerHTML=`<h2>Sudut Berpenyiku 📐</h2><p>Sudut siku-siku bernilai 90°. Geser slider untuk membagi sudut siku-siku itu menjadi dua bagian, <b>a</b> dan <b>b</b>.</p><div class="card">${S("")}</div><input type="range" id="sl" min="10" max="80" value="35"><div class="ro" id="ro"></div><div class="ins" id="in" hidden>🔑 <b>Kesimpulan:</b> dua sudut yang berpenyiku selalu berjumlah <b>90°</b>. Jika a diketahui, maka b = 90° − a.</div>`;
+const d=()=>{const t=+$("sl").value;$("fg").innerHTML=pen(t,`a = ${t}°`,`b = ${90-t}°`,50,86);$("ro").textContent=`a + b = ${t}° + ${90-t}° = 90°`};
+$("sl").oninput=()=>{d();if(!mv){mv=1;$("in").hidden=false;aw("c2",5);$("nx").disabled=false}};d()}
+
+function c3(){let t=65,ri=0,tr=new Set([0]);
+$("app").innerHTML=`<h2>Garis Sejajar dan Transversal 🔀</h2><p>Dua garis sejajar dipotong satu garis (transversal). Geser slider untuk memiringkan transversal, lalu pilih jenis hubungan sudut. Coba minimal 3 jenis!</p><div class="card">${S("")}</div><input type="range" id="sl" min="30" max="150" value="65"><div class="chips" id="rb">${RL.map((r,i)=>`<button data-i="${i}">${r[0]}</button>`).join("")}</div><div class="ro" id="ro"></div><div class="ins" id="in"></div><div class="mu" id="cn"></div>`;
+const d=()=>{const r=RL[ri],a=SZ[r[1][1]](t),b=SZ[r[2][1]](t);
+$("fg").innerHTML=par(t,[[r[1][0],...QD[r[1][1]](t),`p = ${a}°`,1],[r[2][0],...QD[r[2][1]](t),`q = ${b}°`,2]]);
+$("ro").textContent=r[3]=="eq"?`p = ${a}° dan q = ${b}° → sama besar`:`p + q = ${a}° + ${b}° = 180°`;
+$("in").innerHTML=`<b>${r[0]}:</b> ${r[4]} Hasilnya <b>${r[3]=="eq"?"sama besar":"berjumlah 180°"}</b>.`;
+[...$("rb").children].forEach((x,i)=>x.classList.toggle("on",i==ri));
+$("cn").textContent=`Jenis yang sudah dicoba: ${tr.size} dari 5`;
+if(tr.size>=3){aw("c3",5);$("nx").disabled=false}};
+$("sl").oninput=()=>{t=+$("sl").value;d()};
+$("rb").onclick=e=>{const b=e.target.closest("button");if(!b)return;ri=+b.dataset.i;tr.add(ri);d()};d()}
+
+let dropFn=null,g=null;
+const mvg=e=>{g.style.left=e.clientX+"px";g.style.top=e.clientY+"px"};
+addEventListener("pointermove",e=>{if(g)mvg(e)});
+addEventListener("pointerup",e=>{if(!g)return;const s=document.elementFromPoint(e.clientX,e.clientY)?.closest(".slot"),c=g.src;g.remove();g=null;if(s&&dropFn&&!s.classList.contains("good"))dropFn(s,c)});
+const SL=[["A","UL","berpelurus dengan sudut yang diketahui"],["A","LL","bertolak belakang dengan sudut yang diketahui"],["A","LR","berpelurus dengan sudut yang diketahui"],["B","UR","sehadap dengan sudut yang diketahui"],["B","UL","berpelurus dengan sudut sehadap di garis bawah"],["B","LL","berseberangan luar dengan sudut yang diketahui"],["B","LR","sepihak luar dengan sudut yang diketahui, jumlahnya 180°"]];
+function c4(){const t=[55,65,75,105,115,125][Math.floor(Math.random()*6)];let n=0;
+const all=[["A","UR"],...SL.map(s=>[s[0],s[1]])];
+const arcs=all.map((s,i)=>[s[0],...QD[s[1]](t),i?"":`${t}°`,i?2:1]);
+const sls=SL.map(s=>{const v=vt(t,s[0]),m=P(v[0],v[1],56,QD[s[1]](t).reduce((a,b)=>a+b)/2);return `<div class="slot" data-k="${SZ[s[1]](t)}°" data-r="${s[2]}" style="left:${m[0]/4}%;top:${m[1]/3}%"></div>`}).join("");
+const chips=[...Array(3).fill(`${t}°`),...Array(4).fill(`${180-t}°`)].sort(()=>Math.random()-.5);
+$("app").innerHTML=`<h2>Eksplorasi: Tempatkan Besar Sudut 🧩</h2><p>Garis k // l dipotong transversal. Satu sudut sudah diketahui, yaitu <b>${t}°</b>. Seret besar sudut dari kotak di bawah ke kotak <b>?</b> yang tepat. Sudut yang benar akan terkunci.</p><div class="card np" id="wr">${S(par(t,arcs))}${sls}</div><div class="mu" id="cn">Terisi 0 dari 7</div><div class="chs" id="ch">${chips.map(c=>`<div class="chip">${c}</div>`).join("")}</div><div id="fb"></div>`;
+$("ch").onpointerdown=e=>{const c=e.target.closest(".chip");if(!c||c.classList.contains("gone"))return;e.preventDefault();g=c.cloneNode(true);g.className="chip ghost";g.src=c;document.body.appendChild(g);mvg(e)};
+dropFn=(s,c)=>{if(c.textContent===s.dataset.k){s.textContent=c.textContent;s.classList.add("good");c.classList.add("gone");n++;$("cn").textContent=`Terisi ${n} dari 7`;$("fb").className="fb ok";$("fb").innerHTML=`✅ Benar! Sudut ini ${s.dataset.r}.`;if(n==7){aw("c4",10);$("fb").innerHTML+=`<br>${msg()} +10 poin. Kamu sudah menemukan semua sudut!`;cf();$("nx").disabled=false}}
+else{s.classList.add("bad");setTimeout(()=>s.classList.remove("bad"),450);$("fb").className="fb no";$("fb").innerHTML="Belum tepat. 🤔 Pikirkan hubungannya dengan sudut yang diketahui: sama besar, atau berjumlah 180°?"}}}
+const EX=[
+{id:"x1",h:"Berpelurus",f:()=>S(ray(115,"(3x+10)°","(x+30)°")),t:"Dua sudut berpelurus besarnya (3x + 10)° dan (x + 30)°. Berapa nilai x?",a:35,p:10,r:"berpelurus berjumlah 180°.",i:"Buat persamaan: (3x + 10) + (x + 30) = 180.",e:"4x + 40 = 180, 4x = 140, x = 35. Sudutnya 115° dan 65°."},
+{id:"x2",h:"Berpenyiku",f:()=>S(pen(55,"(4x−5)°","(2x+5)°")),t:"Dua sudut berpenyiku besarnya (4x − 5)° dan (2x + 5)°. Berapa nilai x?",a:15,p:10,r:"berpenyiku berjumlah 90°.",i:"Buat persamaan: (4x − 5) + (2x + 5) = 90.",e:"6x = 90, x = 15. Sudutnya 55° dan 35°."},
+{id:"x3",h:"Sehadap",f:()=>S(par(95,[["A",0,95,"(2x+15)°",1],["B",0,95,"(3x−25)°",2]])),t:"Garis k // l. Dua sudut sehadap besarnya (2x + 15)° dan (3x − 25)°. Berapa nilai x?",a:40,p:10,r:"sudut sehadap sama besar.",i:"Sama besar, jadi 2x + 15 = 3x − 25.",e:"15 + 25 = 3x − 2x, jadi x = 40. Kedua sudutnya 95°."},
+{id:"x4",h:"Berseberangan dalam",f:()=>S(par(105,[["A",180,285,"(5x−20)°",1],["B",0,105,"(3x+30)°",2]])),t:"Garis k // l. Dua sudut berseberangan dalam besarnya (5x − 20)° dan (3x + 30)°. Berapa nilai x?",a:25,p:10,r:"sudut berseberangan dalam sama besar.",i:"Sama besar, jadi 5x − 20 = 3x + 30.",e:"2x = 50, x = 25. Kedua sudutnya 105°."},
+{id:"x5",h:"Sepihak dalam",f:()=>S(par(70,[["A",250,360,"(3x+20)°",1],["B",0,70,"(2x+10)°",2]])),t:"Garis k // l. Dua sudut sepihak dalam besarnya (3x + 20)° dan (2x + 10)°. Berapa nilai x?",a:30,p:10,r:"sudut sepihak berjumlah 180°.",i:"Berjumlah 180°, jadi (3x + 20) + (2x + 10) = 180.",e:"5x + 30 = 180, 5x = 150, x = 30. Sudutnya 110° dan 70°."}].map((d,k)=>({...d,h:`Latihan ${k+1} · ${d.h}`}));
+const ST=[
+{id:"s1",h:"Tangga di rak tinggi",f:()=>S(pen(51,"(3x+6)°","(2x+9)°")+`<text class="tx" x="250" y="272">lantai</text><text class="tx" x="128" y="32">rak</text>`),t:"🪜 Petugas perpustakaan menyandarkan tangga pada rak buku tinggi yang berdiri tegak lurus lantai (siku-siku). Sudut tangga dengan lantai (3x + 6)° dan sudut tangga dengan rak (2x + 9)°. Berapa nilai x?",a:15,p:14,r:"lantai dan rak membentuk 90°, jadi kedua sudut berpenyiku.",i:"Buat persamaan: (3x + 6) + (2x + 9) = 90.",e:"5x + 15 = 90, 5x = 75, x = 15. Sudutnya 51° dan 39°."},
+{id:"s2",h:"Sandaran kursi baca",f:()=>S(ray(115,"(5x−10)°","(x+40)°")),t:"🪑 Sandaran kursi baca bisa dimiringkan. Sudut antara sandaran dan garis dudukan (5x − 10)°, dan sudut pada sisi lainnya di garis lurus yang sama (x + 40)°. Berapa nilai x?",a:25,p:14,r:"dua sudut pada garis lurus berpelurus (180°).",i:"Buat persamaan: (5x − 10) + (x + 40) = 180.",e:"6x + 30 = 180, 6x = 150, x = 25. Sudutnya 115° dan 65°."},
+{id:"s3",h:"Dua rak sejajar",f:()=>S(par(80,[["A",0,80,"(3x+20)°",1],["B",0,80,"(5x−20)°",2]],["Rak 1","Rak 2"])),t:"🚶 Dua rak buku panjang dipasang sejajar, lalu satu lorong memotong keduanya. Sudut lorong dengan Rak 1 adalah (3x + 20)° dan sudut sehadapnya pada Rak 2 adalah (5x − 20)°. Berapa nilai x?",a:20,p:14,r:"sudut sehadap sama besar.",i:"Sama besar, jadi 3x + 20 = 5x − 20.",e:"40 = 2x, x = 20. Kedua sudutnya 80°."}].map((d,k)=>({...d,h:`Soal cerita ${k+1} · ${d.h}`}));
+
+const ep=d=>()=>{
+$("app").innerHTML=`<h2>${d.h}</h2><div class="card">${d.f()}</div><p class="q">${d.t}</p><div class="row"><input id="an" type="number" inputmode="numeric" placeholder="x = ?"><button class="b2" id="ck">Periksa ✔</button></div><button class="gh" id="hn">💡 Petunjuk (poin berkurang)</button><div id="fb"></div>`;
+let w=0,hu=0,dn=0;
+$("hn").onclick=()=>{hu=1;$("fb").className="fb";$("fb").innerHTML="💡 "+d.i};
+$("ck").onclick=()=>{if(dn||$("an").value==="")return;const v=+$("an").value;
+if(v===d.a){dn=1;const p=hu?Math.floor(d.p/2):d.p;aw(d.id,p);$("fb").className="fb ok";$("fb").innerHTML=`${msg()} +${p} poin<br>${d.e}`;cf();$("nx").disabled=false}
+else{w++;$("fb").className="fb no";$("fb").innerHTML=w>=3?`Tidak apa-apa, kita pelajari bersama. Jawabannya x = ${d.a}.<br>${d.e}`:`Belum tepat, coba lagi. 💪 ${w>=2?d.i:"Ingat: "+d.r}`;if(w>=3){dn=1;$("nx").disabled=false}}}};
+
+function fin(){const m=122,s=pts/m,st=s>=.85?3:s>=.55?2:1;
+$("app").innerHTML=`<div class="card fin"><div class="big">${"⭐".repeat(st)}${"☆".repeat(3-st)}</div><h2>Misi selesai! 🎓</h2><p>Poinmu: <b>${pts}</b> dari ${m}<br>Gelarmu: <b>${lv()}</b></p><p>${st==3?"Luar biasa! Kamu sudah menguasai hubungan antar sudut.":st==2?"Bagus sekali! Sedikit latihan lagi, kamu akan jadi Master Sudut.":"Kamu sudah berani mencoba, dan itu langkah terbaik. Ulangi sekali lagi, pasti lebih mudah!"}</p><p class="mu">Ingat: berpelurus 180°, berpenyiku 90°. Pada garis sejajar, sehadap dan berseberangan sama besar, sedangkan sepihak berjumlah 180°.</p><button class="go" onclick="location.reload()">🔄 Main lagi</button></div>`;cf()}
+
+const PG=[["Apersepsi · Misi pembuka",ap],["Konsep 1 dari 3",c1],["Konsep 2 dari 3",c2],["Konsep 3 dari 3",c3],["Eksplorasi interaktif · Tempatkan besar sudut",c4],...EX.map((d,k)=>[`Latihan mencari x · ${k+1} dari 5`,ep(d)]),...ST.map((d,k)=>[`Soal cerita perpustakaan · ${k+1} dari 3`,ep(d)]),["Hasil",fin]];
+function go(n){pg=n;dropFn=null;$("gl").textContent=PG[n][0];$("pf").style.width=(n/(PG.length-1)*100)+"%";$("nx").disabled=true;$("nx").hidden=n==PG.length-1;PG[n][1]();scrollTo(0,0)}
+$("nx").onclick=()=>go(pg+1);
+upd();go(0);
+</script></body></html>
